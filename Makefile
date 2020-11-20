@@ -31,10 +31,8 @@ TGZ := $(TGZ_$(PLAT))
 
 GCC_NAME ?= $(shell $(CROSS_PREFIX)gcc -dumpmachine)
 QJS_APP = $(QJS_PATH)/qjs$(EXE)
-#QJS_VERSION = $(shell $(QJS_APP) -h | grep version)
-QJS_VERSION = 2020-11-08
 QJS_DATE = $(shell date '+%Y%m%d')
-DIST_SUFFIX ?= -$(QJS_VERSION)-$(GCC_NAME).$(QJS_DATE)
+DIST_SUFFIX ?= -$(GCC_NAME).$(QJS_DATE)
 DIST = dist
 
 WEBVIEW_ARCH = x64
@@ -44,7 +42,6 @@ endif
 
 ifdef HOST
 	CROSS_PREFIX ?= $(HOST)-
-	QJS_VERSION = 0.0
 	ifneq (,$(findstring arm,$(HOST)))
 		ARCH = arm
 	endif
@@ -73,7 +70,6 @@ show:
 	@echo PLAT: $(PLAT)
 	@echo GCC_NAME: $(GCC_NAME)
 	@echo QJS_PATH: $(QJS_PATH)
-	@echo QJS_VERSION: $(QJS_VERSION)
 	@echo Library extension: $(SO)
 	@echo CC: $(CC)
 	@echo AR: $(AR)
@@ -94,10 +90,10 @@ MAIN_VARS = PLAT=$(PLAT) \
 qjs: qjs-$(PLAT)
 
 qjs-linux:
-	@$(MAKE) -C $(QJS_PATH) qjs
+	@$(MAKE) -C $(QJS_PATH) qjs CONFIG_LTO= CFLAGS_DEBUG= LDFLAGS_DEBUG=-static-libgcc
 
 qjs-windows:
-	@$(MAKE) -C $(QJS_PATH) qjs.exe libquickjs.a CONFIG_WIN32=y CROSS_PREFIX= CONFIG_LTO=
+	@$(MAKE) -C $(QJS_PATH) qjs.exe libquickjs.a CONFIG_WIN32=y CROSS_PREFIX= CONFIG_LTO= CFLAGS_DEBUG= LDFLAGS_DEBUG=-static-libgcc
 
 qjs-webview: qjs
 	$(MAKE) -C $@ -f ../$@.mk $(MAIN_VARS)
@@ -146,7 +142,6 @@ dist-copy-windows:
 
 dist-copy: dist-copy-$(PLAT)
 	cp -u $(QJS_PATH)/qjs$(EXE) $(DIST)/
-	cp -u $(QJS_PATH)/qjsc$(EXE) $(DIST)/
 	-cp -u qjs-webview/webview.$(SO) $(DIST)/
 	-cp -u qjs-uv/tuv.$(SO) $(DIST)/
 
