@@ -1,0 +1,21 @@
+language: c
+
+compiler: gcc
+
+before_install:
+  - sudo apt-get install libgtk-3-dev libwebkit2gtk-4.0-dev
+  
+install:
+  - make configure
+
+script:
+  - make all
+  - make release
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file_glob: true
+  file: dist/qjls-*.*
+  skip_cleanup: true
+  draft: true

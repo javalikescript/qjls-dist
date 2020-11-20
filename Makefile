@@ -31,7 +31,8 @@ TGZ := $(TGZ_$(PLAT))
 
 GCC_NAME ?= $(shell $(CROSS_PREFIX)gcc -dumpmachine)
 QJS_APP = $(QJS_PATH)/qjs$(EXE)
-QJS_VERSION = $(shell $(QJS_APP) -h | grep version)
+#QJS_VERSION = $(shell $(QJS_APP) -h | grep version)
+QJS_VERSION = 2020-11-08
 QJS_DATE = $(shell date '+%Y%m%d')
 DIST_SUFFIX ?= -$(QJS_VERSION)-$(GCC_NAME).$(QJS_DATE)
 DIST = dist
@@ -151,5 +152,15 @@ dist-copy: dist-copy-$(PLAT)
 
 dist: clean-dist dist-prepare dist-copy
 
+
+qjls.tar.gz:
+	cd $(DIST) && tar --group=jls --owner=jls -zcvf qjls$(DIST_SUFFIX).tar.gz *
+
+qjls.zip:
+	cd $(DIST) && zip -r qjls$(DIST_SUFFIX).zip *
+
+qjls-archive: qjls$(TGZ)
+
+release: dist qjls-archive
 
 .PHONY: clean linux windows qjs qjs-webview qjs-uv
