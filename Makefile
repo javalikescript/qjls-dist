@@ -53,7 +53,7 @@ ifneq ($(QJS_OPENSSL_LINKING),dynamic)
 	QJS_OPENSSL_LINKING = static
 endif
 
-all: qjs
+all: qjs qjs-webview
 
 other:
 	@$(MAKE) PLAT=$(PLAT) MAIN_TARGET=$@ main

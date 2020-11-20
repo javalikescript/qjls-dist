@@ -1,3 +1,6 @@
 [submodule "quickjs"]
 	path = quickjs
 	url = https://github.com/javalikescript/quickjs.git
+[submodule "qjs-webview"]
+	path = qjs-webview
+	url = https://github.com/javalikescript/qjs-webview.git
