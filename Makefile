@@ -87,6 +87,8 @@ MAIN_VARS = PLAT=$(PLAT) \
 		RANLIB=$(CROSS_PREFIX)ranlib \
 		LD=$(CROSS_PREFIX)gcc
 
+configure:
+
 qjs: qjs-$(PLAT)
 
 qjs-linux:
