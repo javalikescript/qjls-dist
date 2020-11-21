@@ -45,6 +45,7 @@ ifdef HOST
 	ifneq (,$(findstring arm,$(HOST)))
 		ARCH = arm
 	endif
+	CROSS_DEFS = CROSS_PREFIX=$(CROSS_PREFIX)
 endif
 
 ifneq ($(QJS_OPENSSL_LINKING),dynamic)
@@ -92,10 +93,10 @@ configure:
 qjs: qjs-$(PLAT)
 
 qjs-linux:
-	@$(MAKE) -C $(QJS_PATH) qjs CONFIG_LTO= CFLAGS_DEBUG= LDFLAGS_DEBUG=-static-libgcc
+	@$(MAKE) -C $(QJS_PATH) qjs CONFIG_LTO= CFLAG_DEBUG= LDFLAG_DEBUG=-static-libgcc $(CROSS_DEFS)
 
 qjs-windows:
-	@$(MAKE) -C $(QJS_PATH) qjs.exe libquickjs.a CONFIG_WIN32=y CROSS_PREFIX= CONFIG_LTO= CFLAGS_DEBUG= LDFLAGS_DEBUG=-static-libgcc
+	@$(MAKE) -C $(QJS_PATH) qjs.exe libquickjs.a CONFIG_WIN32=y CROSS_PREFIX= CONFIG_LTO= CFLAG_DEBUG= LDFLAG_DEBUG=-static-libgcc
 
 qjs-webview: qjs
 	$(MAKE) -C $@ -f ../$@.mk $(MAIN_VARS)
