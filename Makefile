@@ -32,6 +32,7 @@ TGZ := $(TGZ_$(PLAT))
 GCC_NAME ?= $(shell $(CROSS_PREFIX)gcc -dumpmachine)
 QJS_APP = $(QJS_PATH)/qjs$(EXE)
 QJS_DATE = $(shell date '+%Y%m%d')
+QJS_VERSION = $(shell cat $(QJS_PATH)/VERSION)
 DIST_SUFFIX ?= -$(GCC_NAME).$(QJS_DATE)
 DIST = dist
 
@@ -71,6 +72,7 @@ show:
 	@echo PLAT: $(PLAT)
 	@echo GCC_NAME: $(GCC_NAME)
 	@echo QJS_PATH: $(QJS_PATH)
+	@echo QJS_VERSION: $(QJS_VERSION)
 	@echo Library extension: $(SO)
 	@echo CC: $(CC)
 	@echo AR: $(AR)
@@ -93,10 +95,10 @@ configure:
 qjs: qjs-$(PLAT)
 
 qjs-linux:
-	@$(MAKE) -C $(QJS_PATH) qjs CONFIG_LTO= CFLAG_DEBUG= LDFLAG_DEBUG=-static-libgcc $(CROSS_DEFS)
+	@$(MAKE) -C $(QJS_PATH) qjs CFLAG_DEBUG= NO_WORKER=y "LDEXPORT=-rdynamic -static-libgcc" $(CROSS_DEFS)
 
 qjs-windows:
-	@$(MAKE) -C $(QJS_PATH) qjs.exe libquickjs.a CONFIG_WIN32=y CROSS_PREFIX= CONFIG_LTO= CFLAG_DEBUG= LDFLAG_DEBUG=-static-libgcc
+	@$(MAKE) -C $(QJS_PATH) qjs.exe libquickjs.a libquickjs.lto.a CONFIG_WIN32=y CFLAG_DEBUG= NO_WORKER=y CROSS_PREFIX= LDEXPORT=-static-libgcc
 
 qjs-webview: qjs
 	$(MAKE) -C $@ -f ../$@.mk $(MAIN_VARS)

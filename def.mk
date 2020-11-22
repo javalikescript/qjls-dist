@@ -15,4 +15,4 @@ DEF_CFLAGS_WINDOWS = $(CFLAGS_DEBUG) -Wall -Wno-array-bounds -Wno-format-truncat
 
 DEF_LIBOPT_WINDOWS = $(CFLAGS_DEBUG) -flto -shared \
 	-static-libgcc -Wl,-s \
-  -L..\$(QJS_PATH) -lquickjs
+  -L..\$(QJS_PATH) -lquickjs.lto
