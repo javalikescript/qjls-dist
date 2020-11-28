@@ -4,3 +4,6 @@
 [submodule "qjs-webview"]
 	path = qjs-webview
 	url = https://github.com/javalikescript/qjs-webview.git
+[submodule "qjs-uv"]
+	path = qjs-uv
+	url = https://github.com/javalikescript/qjs-uv.git
