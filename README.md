@@ -1,17 +1,14 @@
 
+> **NOTE**
+> 
+> The qjls project is still an experiment.
+
+
 ## Overview
 
 This repository contains [QuickJS](https://bellard.org/quickjs/), selected QuickJS modules and the associated makefiles.
 The targeted operating systems are Linux and Windows. The targeted architectures are x86, x86-64 and ARM.
 
----
-**NOTE**
-
-The qjls project is still an experiment.
-
----
-
-You could find information and download binaries on the [qjls](http://javalikescript.free.fr/quickjs/) page.
 
 ## How to setup?
 
